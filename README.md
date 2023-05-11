@@ -1,6 +1,16 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
+# Проект: Mesto фронтенд + бэкенд
 
+В данном проекте разрабатыватся бэкенд для проекта Mesto.
+Проект написан на фреймворке Express.
+Для тестирования запросов на сервер использовали сервис Postman Website.
+Для работы с базами данных использлвали сервис MongoDB.
+
+На текущий момент выполнены следующие этапы проекта: 
+- созданы схемы и модели для пользователя и карточки;
+- созданы контроллеры и роуты для пользователей и карточек;
+- настроена обработка ошибок;
+- обработка запросов протестирована в Postman и в тестах на базе Github Actions.
 
 ## Директории
 
@@ -14,3 +24,5 @@
 
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+* [Ссылка на репозиторий](https://github.com/Evgeniy-Dvoeglazov/express-mesto-gha)
