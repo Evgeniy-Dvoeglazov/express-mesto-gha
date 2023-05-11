@@ -12,13 +12,13 @@ module.exports.getUsers = (req, res) => {
 }
 
 module.exports.getUser = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.params._id)
     .then(user => {
       console.log(user);
       if (user !== null) {
         res.send({ data: user })
       }
-      res.status(404).send({ message: 'Запрашиваемый пользователь не найден' });
+      res.status(400 || 404).send({ message: 'Запрашиваемый пользователь не найден' });
     })
     .catch(err => res.status(500).send({ message: 'Произошла ошибка' }));
 }
