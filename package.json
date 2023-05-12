@@ -14,7 +14,6 @@
     "url": "git+https://github.com/Evgeniy-Dvoeglazov/express-mesto-gha.git"
   },
   "author": "Evgeniy-Dvoeglazov",
-  "eslintIgnore": [".eslintrc.js"],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Evgeniy-Dvoeglazov/express-mesto-gha/issues"
