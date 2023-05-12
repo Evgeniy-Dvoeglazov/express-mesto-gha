@@ -49,10 +49,6 @@ function updateUserInfo(req, res, handleError) {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       handleError(err, res);
-      // if (err instanceof mongoose.Error.ValidationError) {
-      //   return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
-      // }
-      // return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 }
 
@@ -74,21 +70,3 @@ module.exports.changeProfileInfo = (req, res) => {
 module.exports.changeAvatar = (req, res) => {
   updateUserInfo(req, res, handleAvatarError);
 };
-
-
-// module.exports.changeProfileInfo = (req, res) => {
-//   User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
-//     .then((user) => res.send({ data: user }))
-//     .catch((err) => {
-//       if (err instanceof mongoose.Error.ValidationError) {
-//         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
-//       }
-//       return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
-//     });
-// };
-
-// module.exports.changeAvatar = (req, res) => {
-//   User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
-//     .then((user) => res.send({ data: user }))
-//     .catch(() => res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }));
-// };
