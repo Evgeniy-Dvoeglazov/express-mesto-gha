@@ -1,18 +1,18 @@
-const http2 = require('node:http2');
-const mongoose = require('mongoose');
-const User = require('../models/user');
+const http2 = require("node:http2");
+const mongoose = require("mongoose");
+const User = require("../models/user");
 
 const {
   HTTP_STATUS_CREATED,
   HTTP_STATUS_BAD_REQUEST,
   HTTP_STATUS_NOT_FOUND,
-  HTTP_STATUS_INTERNAL_SERVER_ERROR,
+  HTTP_STATUS_INTERNAL_SERVER_ERROR
 } = http2.constants;
 
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch(() => res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }));
+    .catch(() => res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" }));
 };
 
 module.exports.getUser = (req, res) => {
@@ -21,13 +21,13 @@ module.exports.getUser = (req, res) => {
       if (user !== null) {
         return res.send({ data: user });
       }
-      return res.status(HTTP_STATUS_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+      return res.status(HTTP_STATUS_NOT_FOUND).send({ message: "Запрашиваемый пользователь не найден" });
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: "Переданы некорректные данные" });
       }
-      return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
+      return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -38,9 +38,9 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.status(HTTP_STATUS_CREATED).send({ data: user }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: "Переданы некорректные данные" });
       }
-      return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
+      return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" });
     });
 };
 
@@ -54,13 +54,13 @@ function updateUserInfo(req, res, handleError) {
 
 function handleUserProfileError(err, res) {
   if (err instanceof mongoose.Error.ValidationError) {
-    return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
+    return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: "Переданы некорректные данные" });
   }
-  return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
+  return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" });
 }
 
 function handleAvatarError(res) {
-  res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
+  res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" });
 }
 
 module.exports.changeProfileInfo = (req, res) => {
