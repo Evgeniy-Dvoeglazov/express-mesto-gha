@@ -1,9 +1,15 @@
+const http2 = require("node:http2");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
 const { PORT = 3000 } = process.env;
 const app = express();
+
+const {
+  HTTP_STATUS_NOT_FOUND
+} = http2.constants;
+
 app.use(cors());
 
 app.use(express.json());
@@ -24,7 +30,7 @@ app.use((req, res, next) => {
 
 app.use("/", require("./routes/index"));
 
-app.all("*", (req, res) => res.status(404).send({ message: "Произошла ошибка" }));
+app.all("*", (req, res) => res.status(HTTP_STATUS_NOT_FOUND).send({ message: "Произошла ошибка" }));
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

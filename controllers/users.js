@@ -44,12 +44,22 @@ module.exports.createUser = (req, res) => {
     });
 };
 
-function updateUserInfo(req, res, handleError) {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
+function updateUserInfo(req, res, handleError, getData) {
+  User.findByIdAndUpdate(req.user._id, getData(req, res), { new: true, runValidators: true })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       handleError(err, res);
     });
+}
+
+function getUserInfoData(req) {
+  const { name, about } = req.body;
+  return { name, about };
+}
+
+function getUserAvatarData(req) {
+  const { avatar } = req.body;
+  return { avatar };
 }
 
 function handleUserProfileError(err, res) {
@@ -64,9 +74,9 @@ function handleAvatarError(res) {
 }
 
 module.exports.changeProfileInfo = (req, res) => {
-  updateUserInfo(req, res, handleUserProfileError);
+  updateUserInfo(req, res, handleUserProfileError, getUserInfoData);
 };
 
 module.exports.changeAvatar = (req, res) => {
-  updateUserInfo(req, res, handleAvatarError);
+  updateUserInfo(req, res, handleAvatarError, getUserAvatarData);
 };
