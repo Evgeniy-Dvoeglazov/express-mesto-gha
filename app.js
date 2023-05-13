@@ -32,6 +32,4 @@ app.use("/", require("./routes/index"));
 
 app.all("*", (req, res) => res.status(HTTP_STATUS_NOT_FOUND).send({ message: "Произошла ошибка" }));
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);
