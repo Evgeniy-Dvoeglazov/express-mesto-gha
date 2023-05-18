@@ -1,5 +1,7 @@
 const http2 = require("node:http2");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const {
@@ -32,15 +34,32 @@ module.exports.getUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-
-  User.create({ name, about, avatar })
+  const {
+    name, about, avatar, email, password
+  } = req.body;
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash
+    }))
     .then((user) => res.status(HTTP_STATUS_CREATED).send({ data: user }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: "Переданы некорректные данные" });
       }
       return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" });
+    });
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, "some-secret-key", { expiresIn: "7d" });
+      res.send({ token });
+    })
+    .catch((err) => {
+      res.status(401).send({ message: err.message });
     });
 };
 
