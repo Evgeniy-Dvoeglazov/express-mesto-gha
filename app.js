@@ -1,17 +1,14 @@
-const http2 = require("node:http2");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const customError = require("./middlewares/customError");
+const defaultError = require("./middlewares/defaultError");
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const {
-  HTTP_STATUS_NOT_FOUND
-} = http2.constants;
-
-const auth = require("./middlewares/auth");
-const { createUser, login } = require("./controllers/users");
+// const auth = require("./middlewares/auth");
+// const { createUser, login } = require("./controllers/users");
 
 app.use(cors());
 
@@ -23,13 +20,11 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {
   family: 4
 });
 
-app.post("/signin", login);
-app.post("/signup", createUser);
-
-app.use(auth);
-
+// app.post("/signin", login);
+// app.post("/signup", createUser);
 app.use("/", require("./routes/index"));
-
-app.all("*", (req, res) => res.status(HTTP_STATUS_NOT_FOUND).send({ message: "Произошла ошибка" }));
+// app.use(auth);
+app.use(customError);
+app.use(defaultError);
 
 app.listen(PORT);

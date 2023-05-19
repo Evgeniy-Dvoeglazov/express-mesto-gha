@@ -9,7 +9,11 @@ const cardSchema = new mongoose.Schema({
   },
   link: {
     required: true,
-    type: String
+    type: String,
+    validate: {
+      validator: (v) => /https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/.test(v),
+      message: "Неправильно указана ссылка"
+    }
   },
   owner: {
     ref: "user",
