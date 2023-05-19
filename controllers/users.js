@@ -33,6 +33,12 @@ module.exports.getUser = (req, res) => {
     });
 };
 
+module.exports.getCurrentUser = (req, res) => {
+  User.findOne(req.user._id)
+    .then((user) => res.send({ data: user }))
+    .catch(() => res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" }));
+};
+
 module.exports.createUser = (req, res) => {
   const {
     name, about, avatar, email, password

@@ -10,6 +10,9 @@ const {
   HTTP_STATUS_NOT_FOUND
 } = http2.constants;
 
+const auth = require("./middlewares/auth");
+const { createUser, login } = require("./controllers/users");
+
 app.use(cors());
 
 app.use(express.json());
@@ -20,13 +23,10 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {
   family: 4
 });
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "645ba5c2fd52191a1b045c88"
-  };
+app.post("/signin", login);
+app.post("/signup", createUser);
 
-  next();
-});
+app.use(auth);
 
 app.use("/", require("./routes/index"));
 

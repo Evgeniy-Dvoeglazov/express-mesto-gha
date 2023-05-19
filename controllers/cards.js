@@ -5,8 +5,11 @@ const Card = require("../models/card");
 const {
   HTTP_STATUS_BAD_REQUEST,
   HTTP_STATUS_NOT_FOUND,
-  HTTP_STATUS_INTERNAL_SERVER_ERROR
+  HTTP_STATUS_INTERNAL_SERVER_ERROR,
+  HTTP_STATUS_FORBIDDEN
 } = http2.constants;
+
+console.log(http2.constants);
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -28,19 +31,22 @@ module.exports.createCard = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
-    .then((card) => {
-      if (card !== null) {
-        return res.send({ data: card });
-      }
-      return res.status(HTTP_STATUS_NOT_FOUND).send({ message: "Карточка не найдена" });
-    })
-    .catch((err) => {
-      if (err instanceof mongoose.Error.CastError) {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: "Карточка не найдена" });
-      }
-      return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" });
-    });
+  if (req.user._id) {
+    Card.findByIdAndRemove(req.params.cardId)
+      .then((card) => {
+        if (card !== null) {
+          return res.send({ data: card });
+        }
+        return res.status(HTTP_STATUS_NOT_FOUND).send({ message: "Карточка не найдена" });
+      })
+      .catch((err) => {
+        if (err instanceof mongoose.Error.CastError) {
+          return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: "Карточка не найдена" });
+        }
+        return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).send({ message: "Произошла ошибка" });
+      });
+  }
+  return res.status(HTTP_STATUS_FORBIDDEN).send({ message: "Нет доступа" });
 };
 
 module.exports.likeCard = (req, res) => {
