@@ -18,13 +18,14 @@ module.exports.getUser = (req, res, next) => {
       if (user !== null) {
         return res.send({ data: user });
       }
+      console.log(res.status);
       throw new NotFoundError("Запрашиваемый пользователь не найден");
     })
     .catch(next);
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  User.findOne(req.user._id)
+  User.findById(req.user._id)
     .then((user) => res.send({ data: user }))
     .catch(next);
 };
