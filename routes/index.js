@@ -13,7 +13,7 @@ router.use("/users", require("./users"));
 router.use("/cards", require("./cards"));
 
 router.all("*", () => {
-  throw new NotFoundError("Карточка не найдена");
+  throw new NotFoundError("Запрашиваемая информация не найдена");
 });
 
 module.exports = router;

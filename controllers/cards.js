@@ -19,13 +19,14 @@ module.exports.createCard = (req, res, next) => {
 module.exports.deleteCard = (req, res, next) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
-      if (card.owner !== req.user._id) {
+      if (card.owner.toString() !== req.user._id) {
         throw new ForbiddenError("Нет доступа");
-      }
+      } else
       if (card !== null) {
         return res.send({ data: card });
+      } else {
+        throw new NotFoundError("Карточка не найдена");
       }
-      throw new NotFoundError("Карточка не найдена");
     })
     .catch(next);
 };

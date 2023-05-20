@@ -19,6 +19,6 @@ module.exports = {
       "error",
       "never"],
     "no-underscore-dangle": ["error", { allow: ["_id"] }],
-    "func-names": "as-needed"
+    "func-names": ["error", "never"]
   }
 };
