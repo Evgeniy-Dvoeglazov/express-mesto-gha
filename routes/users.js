@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  createUserValidation,
+  userIdValidation,
   profileValidation,
   profileAvatar
 } = require("../validation/userValidation");
@@ -14,9 +14,9 @@ const {
 
 router.get("/", getUsers);
 
-router.get("/:userId", createUserValidation, getUser);
+router.get("/:userId", userIdValidation, getUser);
 
-router.get("/me", getCurrentUser);
+router.get("/me", userIdValidation, getCurrentUser);
 
 router.patch("/me", profileValidation, changeProfileInfo);
 
