@@ -13,8 +13,6 @@ const app = express();
 // const { createUser, login } = require("./controllers/users");
 
 app.use(cors());
-app.use(cookieParser());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -22,6 +20,8 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {
   useNewUrlParser: true,
   family: 4
 });
+
+app.use(cookieParser());
 
 app.use("/", require("./routes/index"));
 
