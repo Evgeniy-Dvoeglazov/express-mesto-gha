@@ -18,6 +18,7 @@ module.exports = {
     "comma-dangle": [
       "error",
       "never"],
-    "no-underscore-dangle": ["error", { allow: ["_id"] }]
+    "no-underscore-dangle": ["error", { allow: ["_id"] }],
+    "func-names": "as-needed"
   }
 };

@@ -17,11 +17,11 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  if (!req.user._id) {
-    throw new ForbiddenError("Нет доступа");
-  }
-  return Card.findByIdAndRemove(req.params.cardId)
+  Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
+      if (card.owner !== req.user._id) {
+        throw new ForbiddenError("Нет доступа");
+      }
       if (card !== null) {
         return res.send({ data: card });
       }
