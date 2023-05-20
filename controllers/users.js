@@ -54,14 +54,18 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.changeProfileInfo = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
+function updateProfile(req, res, body, next) {
+  User.findByIdAndUpdate(req.user._id, body, { new: true, runValidators: true })
     .then((user) => res.send({ data: user }))
     .catch(next);
+}
+
+module.exports.changeProfileInfo = (req, res, next) => {
+  const profileBody = { name: req.body.name, about: req.body.about };
+  updateProfile(req, res, profileBody, next);
 };
 
 module.exports.changeAvatar = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
-    .then((user) => res.send({ data: user }))
-    .catch(next);
+  const avatarBody = { avatar: req.body.avatar };
+  updateProfile(req, res, avatarBody, next);
 };

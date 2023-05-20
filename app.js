@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { errors } = require("celebrate");
 const customError = require("./middlewares/customError");
 const defaultError = require("./middlewares/defaultError");
 
@@ -20,10 +21,9 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {
   family: 4
 });
 
-// app.post("/signin", login);
-// app.post("/signup", createUser);
 app.use("/", require("./routes/index"));
-// app.use(auth);
+
+app.use(errors());
 app.use(customError);
 app.use(defaultError);
 
