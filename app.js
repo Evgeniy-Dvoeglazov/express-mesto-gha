@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const { errors } = require("celebrate");
 const customError = require("./middlewares/customError");
 const defaultError = require("./middlewares/defaultError");
@@ -12,6 +13,7 @@ const app = express();
 // const { createUser, login } = require("./controllers/users");
 
 app.use(cors());
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
