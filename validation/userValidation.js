@@ -7,6 +7,9 @@ module.exports.createUserValidation = celebrate({
     name: Joi.string().min(2).max(30),
     avatar: Joi.string().pattern(/https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/),
     about: Joi.string().min(2).max(30)
+  }),
+  params: Joi.object().keys({
+    userId: Joi.string().hex().length(24)
   })
 });
 
@@ -17,11 +20,11 @@ module.exports.loginValidation = celebrate({
   })
 });
 
-module.exports.userIdValidation = celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().hex().length(24)
-  })
-});
+// module.exports.userIdValidation = celebrate({
+//   params: Joi.object().keys({
+//     userId: Joi.string().hex().length(24)
+//   })
+// });
 
 module.exports.profileValidation = celebrate({
   body: Joi.object().keys({
