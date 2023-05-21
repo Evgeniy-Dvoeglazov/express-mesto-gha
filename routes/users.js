@@ -16,7 +16,7 @@ router.get("/", getUsers);
 
 router.get("/:userId", userIdValidation, getUser);
 
-router.get("/me", userIdValidation, getCurrentUser);
+router.get("/me", getCurrentUser);
 
 router.patch("/me", profileValidation, changeProfileInfo);
 
