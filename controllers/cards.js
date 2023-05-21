@@ -17,19 +17,33 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .then((card) => {
-      if (card.owner.toString() !== req.user._id) {
-        throw new ForbiddenError("Нет доступа");
-      } else
-      if (card !== null) {
-        return res.send({ data: card });
-      } else {
+      if (card === null) {
         throw new NotFoundError("Карточка не найдена");
+      } else if (card.owner.toString() !== req.user._id) {
+        throw new ForbiddenError("Нет доступа");
+      } else {
+        Card.findByIdAndRemove(req.params.cardId)
+          .then(() => res.send({ message: "Карточка удалена" }));
       }
     })
     .catch(next);
 };
+
+//   Card.findByIdAndRemove(req.params.cardId)
+//     .then((card) => {
+//       if (card.owner.toString() !== req.user._id) {
+//         throw new ForbiddenError("Нет доступа");
+//       } else
+//         if (card !== null) {
+//           return res.send({ data: card });
+//         } else {
+//           throw new NotFoundError("Карточка не найдена");
+//         }
+//     })
+//     .catch(next);
+// };
 
 module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })

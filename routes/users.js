@@ -14,7 +14,7 @@ const {
 
 router.get("/", getUsers);
 
-router.get("/:userId", getUser);
+router.get("/:userId", userIdValidation, getUser);
 
 router.get("/me", getCurrentUser);
 
