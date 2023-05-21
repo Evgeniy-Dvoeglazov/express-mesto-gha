@@ -7,10 +7,10 @@ const NotFoundError = require("../errors/not-found-error");
 router.post("/signin", loginValidation, login);
 router.post("/signup", createUserValidation, createUser);
 
+router.use(auth);
+
 router.use("/users", require("./users"));
 router.use("/cards", require("./cards"));
-
-router.use(auth);
 
 router.all("*", () => {
   throw new NotFoundError("Запрашиваемая информация не найдена");
