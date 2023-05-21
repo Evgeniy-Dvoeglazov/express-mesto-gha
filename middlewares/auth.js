@@ -14,9 +14,7 @@ module.exports = (req, res, next) => {
     // Верифицируем токен
     payload = jwt.verify(token, NODE_ENV === "production" ? JWT_SECRET : "dev-secret");
   } catch (err) {
-    const error = new UnauthorizedError("Необходима авторизация");
-
-    next(error);
+    throw new UnauthorizedError("Необходима авторизация");
   }
 
   req.user = payload; // записываем пейлоуд в объект запроса

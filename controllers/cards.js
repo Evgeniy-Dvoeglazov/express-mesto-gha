@@ -27,7 +27,8 @@ module.exports.deleteCard = (req, res, next) => {
         throw new ForbiddenError("Нет доступа");
       } else {
         Card.findByIdAndRemove(req.params.cardId)
-          .then(() => res.send({ message: "Карточка удалена" }));
+          .then(() => res.send({ message: "Карточка удалена" }))
+          .catch(next);
       }
     })
     .catch(next);
