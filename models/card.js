@@ -11,7 +11,7 @@ const cardSchema = new mongoose.Schema({
     required: true,
     type: String,
     validate: {
-      validator: (v) => /https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/.test(v),
+      validator: (v) => /https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-._~:?#[\]@!$&'()*+,;=]+#?\.[a-zA-Z]{2,3}(\/\S*)?/.test(v),
       message: "Неправильно указана ссылка"
     }
   },

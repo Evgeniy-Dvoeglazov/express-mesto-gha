@@ -5,7 +5,7 @@ module.exports.createUserValidation = celebrate({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
     name: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(/https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/),
+    avatar: Joi.string().pattern(/https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-._~:?#[\]@!$&'()*+,;=]+#?\.[a-zA-Z]{2,3}(\/\S*)?/),
     about: Joi.string().min(2).max(30)
   })
 });
@@ -19,7 +19,7 @@ module.exports.loginValidation = celebrate({
 
 module.exports.userIdValidation = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().hex().length(24)
+    userId: Joi.string().alphanum().length(24)
   })
 });
 
@@ -32,6 +32,6 @@ module.exports.profileValidation = celebrate({
 
 module.exports.profileAvatar = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().pattern(/https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/)
+    avatar: Joi.string().pattern(/https?:\/\/(\d{3}\.)?[a-zA-Z0-9\-._~:?#[\]@!$&'()*+,;=]+#?\.[a-zA-Z]{2,3}(\/\S*)?/)
   })
 });

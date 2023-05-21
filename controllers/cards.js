@@ -1,4 +1,6 @@
 const Card = require("../models/card");
+
+// Подключаем кастомные классы ошибок
 const NotFoundError = require("../errors/not-found-error");
 const ForbiddenError = require("../errors/forbidden-error");
 

@@ -1,7 +1,9 @@
 const http2 = require("node:http2");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs"); // Для хеширования пароля
+const jwt = require("jsonwebtoken"); // Для создания токенов
 const User = require("../models/user");
+
+// Подключаем кастомный класс ошибок
 const NotFoundError = require("../errors/not-found-error");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -35,9 +37,10 @@ module.exports.createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password
   } = req.body;
+  // хешируем пароль
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name, about, avatar, email, password: hash
+      name, about, avatar, email, password: hash // записываем хеш в базу
     }))
     .then((user) => User.findById(user._id))
     .then((user) => res.status(HTTP_STATUS_CREATED).send({ data: user }))
@@ -49,6 +52,7 @@ module.exports.login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
+      // Создаем токен
       const token = jwt.sign({ _id: user._id }, NODE_ENV === "production" ? JWT_SECRET : "dev-secret", { expiresIn: "7d" });
       res.cookie("token", token, {
         httpOnly: true,

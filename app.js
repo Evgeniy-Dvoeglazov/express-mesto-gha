@@ -19,11 +19,14 @@ mongoose.connect("mongodb://localhost:27017/mestodb", {
   family: 4
 });
 
-app.use(cookieParser());
+app.use(cookieParser()); // подключаем парсер кук
 
 app.use("/", require("./routes/index"));
 
-app.use(errors());
+// Если запрос не проходит описанную валидацию Joi,
+// celebrate передаст его дальше в обработчик ошибки.
+app.use(errors()); // обработчик ошибок celebrate.
+// Централизованный обработчик ошибок.
 app.use(customError);
 app.use(defaultError);
 
