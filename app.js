@@ -10,9 +10,6 @@ const defaultError = require("./middlewares/defaultError");
 const { PORT = 3000 } = process.env;
 const app = express();
 
-// const auth = require("./middlewares/auth");
-// const { createUser, login } = require("./controllers/users");
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
