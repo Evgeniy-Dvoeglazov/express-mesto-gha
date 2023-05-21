@@ -5,6 +5,7 @@ const User = require("../models/user");
 
 // Подключаем кастомный класс ошибок
 const NotFoundError = require("../errors/not-found-error");
+const ConflictError = require("../errors/conflict-error");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -44,7 +45,12 @@ module.exports.createUser = (req, res, next) => {
     }))
     .then((user) => User.findById(user._id))
     .then((user) => res.status(HTTP_STATUS_CREATED).send({ data: user }))
-    .catch(next);
+    .catch((err) => {
+      if (err.code === 11000) {
+        throw new ConflictError("Пользователь с таким email уже существует");
+      }
+      next(err);
+    });
 };
 
 module.exports.login = (req, res, next) => {
