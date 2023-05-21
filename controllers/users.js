@@ -27,12 +27,7 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError("Запрашиваемый пользователь не найден");
-      }
-      res.status(200).send(user);
-    })
+    .then((user) => res.send({ data: user }))
     .catch(next);
 };
 
@@ -55,7 +50,7 @@ module.exports.login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === "production" ? JWT_SECRET : "dev-secret", { expiresIn: "7d" });
-      res.cookie("jwt", token, {
+      res.cookie("token", token, {
         httpOnly: true,
         maxAge: 3600000 * 24 * 7
       }).send({ token });
@@ -63,8 +58,8 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
-function updateProfile(req, res, body, next) {
-  User.findByIdAndUpdate(req.user._id, body, { new: true, runValidators: true })
+function updateProfile(req, res, bodyItems, next) {
+  User.findByIdAndUpdate(req.user._id, bodyItems, { new: true, runValidators: true })
     .then((user) => res.send({ data: user }))
     .catch(next);
 }
