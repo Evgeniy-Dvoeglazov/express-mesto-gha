@@ -19,7 +19,7 @@ module.exports.loginValidation = celebrate({
 
 module.exports.userIdValidation = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string()
+    userId: Joi.string().hex().length(24)
   })
 });
 
