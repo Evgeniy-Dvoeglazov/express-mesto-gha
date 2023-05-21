@@ -25,7 +25,13 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .then((user) => res.send({ data: user }));
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError("Запрашиваемый пользователь не найден");
+      }
+      res.status(200).send(user);
+    })
+    .catch(next);
 };
 
 module.exports.createUser = (req, res, next) => {
